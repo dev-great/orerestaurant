@@ -181,7 +181,7 @@ class MenuItemCreateView(APIView):
             tags = request.data.pop('tags', [])
             menu_item_serializer = MenuItemSerializer(data=request.data)
             if menu_item_serializer.is_valid():
-                menu_item = menu_item_serializer.save()
+                menu_item = menu_item_serializer.save(user_id=request.user)
                 # Create or get special tags
                 special_tags = [MenuItemTag.objects.get_or_create(name=tag.get('name'))[
                     0] for tag in tags]
@@ -227,7 +227,7 @@ class GetMenuItemByIDView(APIView):
         try:
             menu_item = get_object_or_404(MenuItem, id=pk)
             # Fetch associated menu item images
-            menu_item_images = MenuItemImage.objects.filter(menu_item_id=pk)
+            menu_item_images = MenuItemImage.objects.filter(menu_item=pk)
             # Serialize menu item and menu item images
             menu_item_serializer = MenuItemSerializer(menu_item)
             image_serializer = MenuItemImageSerializer(
@@ -252,6 +252,8 @@ class GetMenuItemByIDView(APIView):
 
 
 class GetAllMenuItemsView(APIView):
+    permission_classes = [AllowAny]
+
     @swagger_auto_schema(
         operation_description="Retrieve a list of all menu items with optional filters.",
         manual_parameters=[
@@ -385,7 +387,7 @@ class GetDrinksMenuItemsView(APIView):
     def get(self, request):
         try:
             # Filter queryset to get menu items categorized as drinks
-            drinks_menu_items = MenuItem.objects.filter(category='Drink')
+            drinks_menu_items = MenuItem.objects.filter(category='drink')
             # Serialize the drinks menu items
             serializer = MenuItemSerializer(drinks_menu_items, many=True)
             return custom_response(status_code=status.HTTP_200_OK, message="Successfully retrieved drinks menu items.", data=serializer.data)

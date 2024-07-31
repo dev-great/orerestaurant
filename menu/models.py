@@ -17,12 +17,15 @@ def get_product_image_upload_path(instance, filename):
 class MenuItemImage(models.Model):
     id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
-    menu_item_id = models.ForeignKey(
+    menu_item = models.ForeignKey(
         'MenuItem', on_delete=models.CASCADE)
     image = models.ImageField(
         upload_to=get_product_image_upload_path, null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.id)
 
     class Meta:
         ordering = ['-updated_on']
@@ -45,7 +48,8 @@ class MenuItemTag(models.Model):
 class MenuItem(models.Model):
     id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, default=None)
     name = models.CharField(max_length=255)
     description = models.TextField()
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
@@ -83,7 +87,7 @@ class Rating(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Rating by {self.user.email} for {self.product}: {self.rating}"
+        return f"Rating by {self.user.email} for {self.menu_item}: {self.rating}"
 
     class Meta:
         ordering = ['-updated_on']
@@ -102,7 +106,7 @@ class Review(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Review by {self.user.email} for {self.product}: {self.comment}"
+        return f"Review by {self.user.email} for {self.menu_item}: {self.comment}"
 
     class Meta:
         ordering = ['-updated_on']

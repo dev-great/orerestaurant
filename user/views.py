@@ -104,7 +104,7 @@ class UserDetailView(APIView):
     )
     def get(self, request, pk):
         try:
-            user = get_object_or_404(CustomUser, pk=pk)
+            user = CustomUser.objects.get(pk=pk)
             serializer = UserProfileSerializer(user)
             return custom_response(status_code=status.HTTP_200_OK, message="Success", data=serializer.data)
         except CustomUser.DoesNotExist:

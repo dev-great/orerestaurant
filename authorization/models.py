@@ -28,7 +28,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'email'
     PASSWORD_FIELD = 'password'
     REQUIRED_FIELDS = ['first_name', 'last_name',
-                       'phone_number', 'image',]
+                       'phone_number']
 
     def __str__(self):
         return str(self.email)

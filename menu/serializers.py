@@ -14,11 +14,12 @@ class MenuItemImageSerializer(serializers.ModelSerializer):
 class MenuItemTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuItemTag
-        fields = '__all__'
+        fields = ['id', 'name']
 
 
 class MenuItemSerializer(serializers.ModelSerializer):
     tags = MenuItemTagSerializer(many=True, required=False)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = MenuItem
