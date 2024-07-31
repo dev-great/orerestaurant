@@ -118,23 +118,13 @@ python manage.py createsuperuser
 Run the tests
 
 ```bash
-# run django tests for advance app
-python manage.py test advance
+# run django tests for pytest 
+pytest
 ```
 
 ```bash
-# run django tests for company app
-python manage.py test company
-```
-
-```bash
-# run django tests for primaryuser app
-python manage.py test primaryuser
-```
-
-```bash
-# run django tests for subscription app
-python manage.py test subscription
+# run django tests 
+python manage.py test 
 ```
 
 Run the development server
