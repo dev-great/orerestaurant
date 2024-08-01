@@ -115,6 +115,13 @@ python manage.py migrate
 # Create a user with manage.py
 python manage.py createsuperuser
 ```
+
+Create .env file 
+
+```bash
+# create your .env file and add the follow to it; SECRET_KEY, EMAIL_USER, EMAIL_PASSWORD, ENVIRONMENT, CLOUD_NAME, API_KEY, API_SECRET 
+```
+
 Run the tests
 
 ```bash
