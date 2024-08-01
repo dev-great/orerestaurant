@@ -17,7 +17,7 @@ User = get_user_model()
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
     try:
         merge_data = {
-            'titanium_training_user': reset_password_token.user.email,
+            'ore_user': reset_password_token.user.email,
             'otp': reset_password_token.key
         }
 
@@ -28,10 +28,10 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
             html_body = f"Dear {reset_password_token.user.email},\n\nYour OTP is: {reset_password_token.key}\n\nPlease use this OTP to reset your password."
 
         msg = EmailMultiAlternatives(
-            subject="Titanium Training Password Reset",
+            subject="Ore Restaurant Password Reset",
             from_email=settings.EMAIL_HOST_USER,
             to=[reset_password_token.user.email],
-            body=" ",  # Leave this as is; it will be replaced by the alternative part
+            body=" ",
         )
         msg.attach_alternative(html_body, "text/html")
 
